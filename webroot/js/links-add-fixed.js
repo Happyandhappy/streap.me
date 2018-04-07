@@ -77,8 +77,8 @@ $(document).ready( function() {
             nameInput.val("");
 		}else{
 			providerLabelSelect.empty();
-			if (providerSelect.val() == 1) populateSelect(providerLabelSelect, socialLabels[selectedProviderIndex], true);
-			else populateSelect(providerLabelSelect, musicLabels[selectedProviderIndex], true);
+			if (providerSelect.val() == 1) populateSelect(providerLabelSelect, socialLabels[selectedProviderIndex], false);
+			else populateSelect(providerLabelSelect, musicLabels[selectedProviderIndex], false);
             providerLabelSelect.removeClass('hidden');
             nameInput.addClass('hidden');
             nameInput.val("");
@@ -153,6 +153,7 @@ $(document).ready( function() {
 				$("#url_alert").removeClass('show');
 				console.log($("#actions-"+i+"-label").val());
 				console.log(type[$("#actions-"+i + "-name").val()]);
+				$('#action-' + i).append("<input type='hidden' name='actions[" + i + "][type]' value=" +type[$("#actions-"+i+"-label").val()] + ">");
 			}else {
 				$("#url_alert").addClass('show');
 				flag = false;

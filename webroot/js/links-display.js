@@ -39,8 +39,8 @@ $(document).ready(function () {
 	var urls = window.location.href.split('/');
 	var url = urls[urls.length-1];
 	cookie_data = getCookie(url);
-	var _clicked = cookie_data.split(",");
-
+	var checked = '<svg id="symbol" style="float: right;" class="svg-inline--fa fa-check-circle fa-w-16 fa-2x" aria-hidden="true" data-prefix="fas" data-icon="check-circle" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M504 256c0 136.967-111.033 248-248 248S8 392.967 8 256 119.033 8 256 8s248 111.033 248 248zM227.314 387.314l184-184c6.248-6.248 6.248-16.379 0-22.627l-22.627-22.627c-6.248-6.249-16.379-6.249-22.628 0L216 308.118l-70.059-70.059c-6.248-6.248-16.379-6.248-22.628 0l-22.627 22.627c-6.248 6.248-6.248 16.379 0 22.627l104 104c6.249 6.249 16.379 6.249 22.628.001z"></path></svg>';
+	var unchecked = '<svg id="symbol" style="float: right;" class="svg-inline--fa fa-angle-right fa-w-8 fa-2x" aria-hidden="true" data-prefix="fas" data-icon="angle-right" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512" data-fa-i2svg=""><path fill="currentColor" d="M224.3 273l-136 136c-9.4 9.4-24.6 9.4-33.9 0l-22.6-22.6c-9.4-9.4-9.4-24.6 0-33.9l96.4-96.4-96.4-96.4c-9.4-9.4-9.4-24.6 0-33.9L54.3 103c9.4-9.4 24.6-9.4 33.9 0l136 136c9.5 9.4 9.5 24.6.1 34z"></path></svg>';
 	$('.action-button').each(function () {
 		actionCount++;
 	});
@@ -59,12 +59,16 @@ $(document).ready(function () {
 		var actionUrl = $(this).data('url');
 		window.open(actionUrl);
 		
+
 		// Disable the action button
-		$(this).prop('disabled', true);
+		// $(this).prop('disabled', true);
 		console.log($(this).attr('data-url'));
 		// Increment the click counter
 		clickedCount++;
-		setCookie(url, $(this).attr('data-url'));
+		if (!cookie_data.includes($(this).attr('data-url')))
+			setCookie(url, $(this).attr('data-url'));
+		$(this).find("#symbol").remove();
+		$(this).append(checked);
 		console.log(cookie_data);
 		// Check if the button is unlocked
 		if (clickedCount == actionCount) {

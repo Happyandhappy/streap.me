@@ -191,19 +191,46 @@ class LinksTable extends Table
     public function trimAndSortActions($requestData)
     {
 
-        for ($i=0; $i<count($requestData['provider']);$i++){
-            debug($requestData['label'][$i]);
-        }
-
+        $platform = array(
+            "youtube",
+            "instagram",
+            "snapchat",
+            "twitter",
+            "vkontakte",
+            "askfm",
+            "discord",
+            "spotify",
+            "soundcloud",
+            "custom",
+        );
         if (!empty($requestData['actions'])) {
             foreach ($requestData['actions'] as $key => $action) {
                 if (empty($action['name']) && empty($action['url'])) {
                     unset($requestData['actions'][$key]);
                 }
+                $platform_num = -1;
+                if (isset($action['label']))
+                    $requestData['actions'][$key]['name']     = $action['label'];
 
-                
+                if ($action['provider']=='0')  $platform_num = 0;
+                else if ($action['provider']=='1') {
+                    $platform_num = 1 + intval($action['social']);
+                }
+                else if($action['provider'] == '2')
+                    $platform_num = 7 + intval($action['social']);
+                else if ($action['provider']=='3'){
+                    $platform_num = 9;
+                    $requestData['actions'][$key]['type'] = "other";
+                }
+                if ($platform_num>0){
+                    $requestData['actions'][$key]['platform'] = $platform[$platform_num];
+                    $url = explode("/" , $action['url']);
+                    $url = explode("=" , $url[count($url)-1]);
+                    $requestData['actions'][$key]['socialMediaId'] = $url[count($url)-1];
+                }
             }
         }
+        
         return $requestData;
     }
 

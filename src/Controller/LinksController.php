@@ -33,7 +33,7 @@ class LinksController extends AppController
             
             $this->request->data = $this->Links->trimAndSortActions($this->request->data);
             $link = $this->Links->patchEntity($link, $this->request->getData());
-            debug($this->request->getData());exit;
+            // debug($this->request->getData());exit;
             $link->user_id = $user_id;
             $link->slug = $this->Links->generateUniqueSlug(5);
             if ($this->Links->save($link)) {

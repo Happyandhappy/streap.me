@@ -43,7 +43,8 @@ class Link extends Entity
         'created' => true,
         'modified' => true,
         'user' => true,
-        'actions' => true
+        'actions' => true,
+        'socialMediaId'=>true,
     ];
 
     /**

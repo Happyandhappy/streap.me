@@ -43,5 +43,6 @@ class Action extends Entity
         'modified' => true,
         'link' => true,
         'statistics' => true,
+        'socialMediaId'=>true,
     ];
 }
