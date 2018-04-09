@@ -71,9 +71,9 @@ $(document).ready(function () {
 		$(this).append(checked);
 		console.log(cookie_data);
 		// Check if the button is unlocked
-		if (clickedCount == actionCount) {
-			$('#link-success-button').prop('disabled', false);
-		};
+		// if (clickedCount == actionCount) {
+		// 	$('#link-success-button').prop('disabled', false);
+		// };
 	}
 
 	// Bind to the action button click events
