@@ -92,6 +92,8 @@ class LinksController extends AppController
             ->first();
         $this->Links->Statistics->insertStatistic('Links', $link->id, 'View');
         $this->loadModel('UserTotals');
+        if ($this->request->is('mobile')) $this->set("device", true);
+        else $this->set("device", false);
         $this->UserTotals->updateImpressionCount($link->user_id, 'impression_count');
         $this->set(compact('link'));
     }
@@ -212,6 +214,7 @@ class LinksController extends AppController
     {
         parent::initialize();
         $this->Auth->allow(['display', 'forward']);
+        $this->loadComponent('RequestHandler');
     }
 
     /**

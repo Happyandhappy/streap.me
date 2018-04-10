@@ -4,13 +4,19 @@
  * @var \App\Model\Entity\Link $link
  */
 $this->assign('title',  $title);
-$this->Html->script('links-display.js', ['block' => 'scriptBottom']);
+$this->Html->script('links-display3.js', ['block' => 'scriptBottom']);
 
 $cookie = null;
 if (isset($_COOKIE[$link->slug]))
     $cookie = explode(',',$_COOKIE[$link->slug]);
 // debug($cookie);
 $count = 0;
+
+function get_str($str){
+	$strs = explode("on", $str);
+	return str_replace("on".$strs[count($strs)-1], "", $str);
+}
+
 ?>
 <style>
 body {
@@ -60,7 +66,11 @@ body {
 
 	<div class="row">
 		<div class="col-xl-12">
-			<div class="centered text-center" style="box-shadow: rgba(223, 223, 223, 0.5) 0px 14px 24px; padding: 30px;">
+			<div class="centered text-center" style="    padding: 30px;
+    margin: 20px auto 20px;
+    background: #FFFFFF;
+    box-shadow: 0 2px 22px 0 rgba(0, 0, 0, 0.06);
+    border-radius: 34px;">
 				<h1><?= h($link->heading) ?></h1>
 				<ul id="link-button-list" class="list-unstyled">
 				<?php $index = 0;
@@ -77,43 +87,84 @@ body {
 
 				<?php if ($action->platform) : ?>
 						<li class="list-item">
-							<?php if ($flag):?>
-							<?= $this->Form->button('<span style="float: left;" class="fab fa-' . h($action->platform) . ' fa-2x"></span>
-														<span style="vertical-align: middle;
-														display: inline-block;
-														width: auto;
-														padding: 5px 0px 0px 10px;
-														line-height: 21px;
-														font-size: 17px;
-														margin-top: -1px;"> ' . h($action->name) . ' </span><span id="symbol" style="float: right" class="fas  fa-check-circle fa-2x"></span>', ['class' => 'btn btn-block btn-primary action-button ' . h($action->platform) . '', 'data-url' => $this->Url->build(['controller' => 'Actions', 'action' => 'forward', $action->id])]) ?>
+							<?php if ($flag):
+									if ($device) :?>
+										<?= $this->Form->button('<span style="float: left;" class="fab fa-' . h($action->platform) . ' fa-2x"></span>
+																	<span style="vertical-align: middle;
+																	display: inline-block;
+																	width: auto;
+																	padding: 5px 0px 0px 10px;
+																	line-height: 21px;
+																	font-size: 17px;
+																	margin-top: -1px;"> ' . get_str(h($action->name)). ' </span><span id="symbol" style="float: right" class="fas  fa-check-circle fa-2x"></span>', ['class' => 'btn btn-block btn-primary action-button ' . h($action->platform) . '', 'data-url' => $this->Url->build(['controller' => 'Actions', 'action' => 'forward', $action->id])]) ?>
+									<?php else : ?>
+									<?= $this->Form->button('<span style="float: left;" class="fab fa-' . h($action->platform) . ' fa-2x"></span>
+																	<span style="vertical-align: middle;
+																	display: inline-block;
+																	width: auto;
+																	padding: 5px 0px 0px 10px;
+																	line-height: 21px;
+																	font-size: 17px;
+																	margin-top: -1px;"> ' . h($action->name). ' </span><span id="symbol" style="float: right" class="fas  fa-check-circle fa-2x"></span>', ['class' => 'btn btn-block btn-primary action-button ' . h($action->platform) . '', 'data-url' => $this->Url->build(['controller' => 'Actions', 'action' => 'forward', $action->id])]) ?>
+									<?php endif ?>
 							<?php else:?>
-							<?= $this->Form->button('<span style="float: left; width:28px;hight:32px;" class="fab fa-' . h($action->platform) . ' fa-2x"></span><span style="vertical-align: middle;
-														display: inline-block;
-														width: auto;
-														padding: 5px 0px 0px 10px;
-														line-height: 21px;
-														font-size: 17px;
-														margin-top: -1px;"> ' . h($action->name) . ' </span><span  id="symbol" style="float: right; width:16px; height:32px;"></span>', ['class' => 'btn btn-block btn-primary action-button ' . h($action->platform) . '', 'data-url' => $this->Url->build(['controller' => 'Actions', 'action' => 'forward', $action->id])]) ?>							
+									<?php if ($device): ?>
+									<?= $this->Form->button('<span style="float: left; width:28px;hight:32px;" class="fab fa-' . h($action->platform) . ' fa-2x"></span><span style="vertical-align: middle;
+																display: inline-block;
+																width: auto;
+																padding: 5px 0px 0px 10px;
+																line-height: 21px;
+																font-size: 17px;
+																margin-top: -1px;"> ' . get_str(h($action->name)). ' </span><span  id="symbol" style="float: right; width:16px; height:32px;"></span>', ['class' => 'btn btn-block btn-primary action-button ' . h($action->platform) . '', 'data-url' => $this->Url->build(['controller' => 'Actions', 'action' => 'forward', $action->id])]) ?>							
+									<?php else: ?>
+									<?= $this->Form->button('<span style="float: left; width:28px;hight:32px;" class="fab fa-' . h($action->platform) . ' fa-2x"></span><span style="vertical-align: middle;
+																display: inline-block;
+																width: auto;
+																padding: 5px 0px 0px 10px;
+																line-height: 21px;
+																font-size: 17px;
+																margin-top: -1px;"> ' . h($action->name). ' </span><span  id="symbol" style="float: right; width:16px; height:32px;"></span>', ['class' => 'btn btn-block btn-primary action-button ' . h($action->platform) . '', 'data-url' => $this->Url->build(['controller' => 'Actions', 'action' => 'forward', $action->id])]) ?>							
+									<?php endif ?>																
 							<?php endif;?>
 						</li>
 			    <?php else :?>
 			        <li class="list-item">
 						<?php if ($flag) : ?>
-						<?= $this->Form->button('<span style="float: left" class="fab fa-youtube fa-2x"></span><span style="vertical-align: middle;
+							<?php if ($device):?>
+								<?= $this->Form->button('<span style="float: left" class="fab fa-youtube fa-2x"></span><span style="vertical-align: middle;
+														display: inline-block;
+														width: auto;
+														padding: 5px 0px 0px 10px;
+														line-height: 21px;
+														font-size: 17px;
+														margin-top: -1px;"> ' . get_str(h($action->name)) . ' </span><span id="symbol" style="float: right" class="fas fa-check-circle fa-2x"></span>', ['class' => 'btn btn-block btn-primary action-button youtube', 'data-url' => $this->Url->build(['controller' => 'Actions', 'action' => 'forward', $action->id])]) ?>
+							<?php else: ?>
+								<?= $this->Form->button('<span style="float: left" class="fab fa-youtube fa-2x"></span><span style="vertical-align: middle;
 														display: inline-block;
 														width: auto;
 														padding: 5px 0px 0px 10px;
 														line-height: 21px;
 														font-size: 17px;
 														margin-top: -1px;"> ' . h($action->name) . ' </span><span id="symbol" style="float: right" class="fas fa-check-circle fa-2x"></span>', ['class' => 'btn btn-block btn-primary action-button youtube', 'data-url' => $this->Url->build(['controller' => 'Actions', 'action' => 'forward', $action->id])]) ?>
+							<?php endif;?>									
 						<?php else : ?>
-						<?= $this->Form->button('<span style="float: left" class="fab fa-youtube fa-2x"></span><span style="vertical-align: middle;
+							<?php if ($device) : ?>
+								<?= $this->Form->button('<span style="float: left" class="fab fa-youtube fa-2x"></span><span style="vertical-align: middle;
+														display: inline-block;
+														width: auto;
+														padding: 5px 0px 0px 10px;
+														line-height: 21px;
+														font-size: 17px;
+														margin-top: -1px;"> ' . get_str(h($action->name)) . ' </span><span id="symbol" style="float: right;width:16px; height:32px;"></span>', ['class' => 'btn btn-block btn-primary action-button youtube', 'data-url' => $this->Url->build(['controller' => 'Actions', 'action' => 'forward', $action->id])]) ?>
+							<?php else: ?>
+								<?= $this->Form->button('<span style="float: left" class="fab fa-youtube fa-2x"></span><span style="vertical-align: middle;
 														display: inline-block;
 														width: auto;
 														padding: 5px 0px 0px 10px;
 														line-height: 21px;
 														font-size: 17px;
 														margin-top: -1px;"> ' . h($action->name) . ' </span><span id="symbol" style="float: right;width:16px; height:32px;"></span>', ['class' => 'btn btn-block btn-primary action-button youtube', 'data-url' => $this->Url->build(['controller' => 'Actions', 'action' => 'forward', $action->id])]) ?>
+							<?php endif; ?>
 						<?php endif; ?>
 				   </li>
 			    <?php endif; $index++;?>
